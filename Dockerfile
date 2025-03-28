@@ -3,9 +3,7 @@
 # Authors
 #  Vassilis Vassiliadis
 
-ARG base_image=ibmcom/ibm-enterprise-mongodb-ppc64le:v5
-
-FROM $base_image as base
+FROM quay.io/mongodb/mongodb-community-server:6.0-ubi9 AS base
 
 USER root
 COPY mongod.conf /etc/mongod.conf
