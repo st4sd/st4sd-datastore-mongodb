@@ -33,7 +33,7 @@ echo "Starting mongod with no auth to setup admin account"
 url_encoded_socket_file="mongodb://%2Ftmp%2Fmongodb-${INIT_PORT}.sock/admin"
 while true
 do
-  mongo "${url_encoded_socket_file}" --eval "db.createUser({ user: '$MONGODB_USERNAME', pwd: '$MONGODB_PASSWORD', roles: [{ role: '$ROLE', db: 'admin' }]})"
+  /usr/bin/mongosh "${url_encoded_socket_file}" --eval "db.createUser({ user: '$MONGODB_USERNAME', pwd: '$MONGODB_PASSWORD', roles: [{ role: '$ROLE', db: 'admin' }]})"
   if [[ $? -eq 0 ]]; then
     break
   fi
@@ -42,7 +42,7 @@ done
 echo "Shuttting down database"
 # VV: In MongoDB 5.0 timeout secs is 15
 # Docs: https://www.mongodb.com/docs/manual/reference/method/db.shutdownServer/
-mongo "${url_encoded_socket_file}" --eval "db.adminCommand({shutdown:1, timeoutSecs: 15})"
+/usr/bin/mongosh "${url_encoded_socket_file}" --eval "db.adminCommand({shutdown:1, timeoutSecs: 15})"
 
 echo "Database finished initializing - starting it again in 20 seconds"
 
