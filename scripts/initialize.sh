@@ -7,7 +7,6 @@
 
 
 MONGODB_USERNAME=${MONGODB_USERNAME:-admin}
-MONGODB_PASSWORD=${MONGODB_PASSWORD:-iwouldneverputarandompasswordherebecausethatisdefinitelynotsafesodonotdoitever2}
 export INIT_PORT=${MONGODB_INIT_PORT:-64942}
 export LOCATION_DATABASE=${LOCATION_DATABASE:-/data/db/mongodb}
 
