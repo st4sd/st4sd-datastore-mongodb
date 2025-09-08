@@ -3,7 +3,7 @@
 # Authors
 #  Vassilis Vassiliadis
 
-FROM quay.io/mongodb/mongodb-community-server:6.0-ubi9 AS base
+FROM quay.io/mongodb/mongodb-community-server:7.0-ubi9 AS base
 
 USER root
 COPY mongod.conf /etc/mongod.conf
