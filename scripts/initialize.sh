@@ -38,7 +38,7 @@ do
   fi
 done
 
-echo "Shuttting down database"
+echo "Shutting down database"
 # VV: In MongoDB 5.0 timeout secs is 15
 # Docs: https://www.mongodb.com/docs/manual/reference/method/db.shutdownServer/
 /usr/bin/mongosh "${url_encoded_socket_file}" --eval "db.adminCommand({shutdown:1, timeoutSecs: 15})"

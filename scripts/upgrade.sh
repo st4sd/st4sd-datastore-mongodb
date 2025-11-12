@@ -7,7 +7,7 @@
 
 export MONGO_BIND_IP=${MONGO_BIND_IP:-127.0.0.1}
 
-mongosh --quiet --host "${MONGO_BIND_IP}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin admin --eval '
+mongosh --quiet --host "${MONGO_BIND_IP}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin --eval '
   function ensureOk(desc, cmd) {
     const res = db.adminCommand(cmd);
 
