@@ -31,7 +31,11 @@ if [[ ! -f ${LOCATION_DATABASE}/.firstrun ]]; then
    fi
    touch ${LOCATION_DATABASE}/.firstrun
 else
-   echo "Database has already been initialized - Skipping initialization script"
+   echo "Database has already been initialized - Skipping initialization script and trying to upgrade it"
+   /opt/upgrade.sh
+   if [[ $? -ne 0 ]]; then
+     exit 1
+   fi
 fi
 
 echo "Starting mongod at ${LOCATION_DATABASE}"
