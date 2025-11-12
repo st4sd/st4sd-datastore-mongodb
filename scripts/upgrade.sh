@@ -36,7 +36,7 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
     print("Version", v);
     if (v == "6.0") {
       print("Upgrading to 7.0");
-      ensureOk("setFeatureCompatibilityVersion to 7.0", { setFeatureCompatibilityVersion: "7.0" });
+      ensureOk("setFeatureCompatibilityVersion to 7.0", { setFeatureCompatibilityVersion: "7.0", "confirm": true });
     } else {
       print("No upgrade action available");
     }
