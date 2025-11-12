@@ -7,7 +7,9 @@
 
 export MONGO_BIND_IP=${MONGO_BIND_IP:-127.0.0.1}
 
-mongosh --quiet --host "${MONGO_BIND_IP}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin --eval '
+. /opt/start_db_with_socket_file.sh
+
+mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin --eval '
   function ensureOk(desc, cmd) {
     const res = db.adminCommand(cmd);
 
@@ -43,5 +45,6 @@ mongosh --quiet --host "${MONGO_BIND_IP}" -u "${MONGODB_USERNAME}" -p "${MONGODB
     quit(2);
   }
 
-  print("Done")
+  print("Shutting down the server")
+  ensureOk("Shutting down the server", {shutdown:1, timeoutSecs: 1})
 '

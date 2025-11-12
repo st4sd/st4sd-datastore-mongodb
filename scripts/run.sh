@@ -36,7 +36,9 @@ else
    if [[ $? -ne 0 ]]; then
      exit 1
    fi
+   echo "Waiting for 5 seconds"
+   sleep 5
 fi
 
 echo "Starting mongod at ${LOCATION_DATABASE}"
-/usr/bin/mongod --dbpath="${LOCATION_DATABASE}" --bind_ip_all --auth $@
+mongod --dbpath="${LOCATION_DATABASE}" --bind_ip_all --auth $@
