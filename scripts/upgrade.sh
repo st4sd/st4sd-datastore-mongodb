@@ -34,11 +34,11 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
 
   if (v && typeof v === "string") {
     print("Version", v);
-    if (v == "5.0") {
-      print("Upgrading to 6.0");
-      ensureOk("setFeatureCompatibilityVersion to 6.0", { setFeatureCompatibilityVersion: "6.0" });
+    if (v == "6.0") {
+      print("Upgrading to 7.0");
+      ensureOk("setFeatureCompatibilityVersion to 7.0", { setFeatureCompatibilityVersion: "7.0" });
     } else {
-      print("No upgrade action necessary");
+      print("No upgrade action available");
     }
   } else {
     print("Cannot determine current version");
