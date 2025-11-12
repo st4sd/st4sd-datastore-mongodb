@@ -5,11 +5,13 @@
 # Authors
 #  Vassilis Vassiliadis
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 echo "Initializing database"
 
 export AUTHENTICATE=0
 
-. /opt/start_db_with_socket_file.sh
+. ${SCRIPT_DIR}/start_db_with_socket_file.sh
 
 echo "Creating admin user"
 

@@ -5,9 +5,10 @@
 # Authors
 #  Vassilis Vassiliadis
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 export MONGO_BIND_IP=${MONGO_BIND_IP:-127.0.0.1}
 
-. /opt/start_db_with_socket_file.sh
+. ${SCRIPT_DIR}/start_db_with_socket_file.sh
 
 mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin --eval '
   function ensureOk(desc, cmd) {
@@ -44,7 +45,11 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
     print(v);
     quit(2);
   }
-
-  print("Shutting down the server")
-  ensureOk("Shutting down the server", {shutdown:1, timeoutSecs: 1})
 '
+
+exit_code=$?
+
+echo "Shutting down database"
+mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin --eval 'db.adminCommand({shutdown:1, timeoutSecs: 1});'
+
+exit $exit_code
