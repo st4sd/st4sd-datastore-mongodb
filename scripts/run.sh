@@ -5,6 +5,8 @@
 # Authors
 #  Vassilis Vassiliadis
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 export LOCATION_DATABASE=${LOCATION_DATABASE:-/data/db/mongodb}
 
 if [[ ${MONGODB_DELETE_DATABASE} == "YES" ]];then
@@ -25,14 +27,22 @@ fi
 # Initialize first run
 if [[ ! -f ${LOCATION_DATABASE}/.firstrun ]]; then
    echo "Database has not been initialized yet - Initializing it now"
-   /opt/initialize.sh
+   ${SCRIPT_DIR}/initialize.sh
    if [[ $? -ne 0 ]]; then
+     echo "Failed to initialize"
      exit 1
    fi
    touch ${LOCATION_DATABASE}/.firstrun
 else
-   echo "Database has already been initialized - Skipping initialization script"
+   echo "Database has already been initialized - Skipping initialization script and trying to upgrade it"
+   ${SCRIPT_DIR}/upgrade.sh
+   if [[ $? -ne 0 ]]; then
+     echo "Failed to upgrade"
+     exit 1
+   fi
+   echo "Waiting for 5 seconds"
+   sleep 5
 fi
 
 echo "Starting mongod at ${LOCATION_DATABASE}"
-/usr/bin/mongod --dbpath="${LOCATION_DATABASE}" --bind_ip_all --auth $@
+mongod --dbpath="${LOCATION_DATABASE}" --bind_ip_all --auth $@
