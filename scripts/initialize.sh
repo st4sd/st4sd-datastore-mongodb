@@ -13,6 +13,11 @@ export AUTHENTICATE=0
 
 . ${SCRIPT_DIR}/start_db_with_socket_file.sh
 
+if [[ $? -ne 0 ]]; then
+   echo "Failed to start db"
+   exit 1
+fi
+
 echo "Creating admin user"
 
 mongosh "${URL_ENCODED_SOCKET_FILE}" --eval "db.createUser({ user: '$MONGODB_USERNAME', pwd: '$MONGODB_PASSWORD', roles: [{ role: '$ROLE', db: 'admin' }]})"
