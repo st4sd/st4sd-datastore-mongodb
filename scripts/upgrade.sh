@@ -10,6 +10,11 @@ export MONGO_BIND_IP=${MONGO_BIND_IP:-127.0.0.1}
 
 . ${SCRIPT_DIR}/start_db_with_socket_file.sh
 
+if [[ $? -ne 0 ]]; then
+   echo "Failed to start db"
+   exit 1
+fi
+
 mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASSWORD}" --authenticationDatabase admin --eval '
   function ensureOk(desc, cmd) {
     const res = db.adminCommand(cmd);

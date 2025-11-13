@@ -33,8 +33,18 @@ mongod --bind_ip "${socket_file}" --port "${INIT_PORT}" --dbpath="${LOCATION_DAT
 
 echo "Waiting for DB to start"
 
+timeout_seconds=${MONGO_INIT_SECONDS_TIMEOUT:-120}
+start=$(date +%s)
 until mongosh "${URL_ENCODED_SOCKET_FILE}" ${AUTH_ARGS} --eval "db.adminCommand('ping')"; do
   sleep 1
+
+  now=$(date +%s)
+  waiting_for=$(( now - start ))
+
+  if (( waiting_for > timeout_seconds )); then
+        echo "Unable to connect to the database after ${timeout_seconds} seconds. This can be a symptom of a misconfigured database please read the logs and address any issues."
+        exit 1
+  fi
 done
 
 echo "mongod running with socket file ${URL_ENCODED_SOCKET_FILE}"
