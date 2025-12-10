@@ -42,9 +42,11 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
     if (v == "5.0") {
       print("************************");
       print("************************");
-      print("Cannot upgrade a mongodb server from 5.0 to 7.0 without upgrading to 6.0 first.");;
-      print("Please scale down this deployment and apply setFeatureCompatibilityVersion=6.0 to mongodb");
-      print("Then scale this deployment up again");
+      print("Cannot upgrade a mongodb server from 5.0 to 7.0 without upgrading to 6.0 first.");
+      print("Please scale down this deployment and deploy a Pod with a mongodb 6 image");
+      print("For example, you can use the image quay.io/mongodb/mongodb-community-server:6.0-ubi9");
+      print("Then, using this mongodb 6.0 pod apply setFeatureCompatibilityVersion=6.0 to mongodb");
+      print("Finally, delete the above pod and scale this deployment up again");
       print("************************");
       print("************************");
       quit(3)l
