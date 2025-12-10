@@ -40,8 +40,17 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
   if (v && typeof v === "string") {
     print("Version", v);
     if (v == "5.0") {
-      print("Upgrading to 6.0");
-      ensureOk("setFeatureCompatibilityVersion to 6.0", { setFeatureCompatibilityVersion: "6.0" });
+      print("************************");
+      print("************************");
+      print("Cannot upgrade a mongodb server from 5.0 to 7.0 without upgrading to 6.0 first.");;
+      print("Please scale down this deployment and apply setFeatureCompatibilityVersion=6.0 to mongodb");
+      print("Then scale this deployment up again");
+      print("************************");
+      print("************************");
+      quit(3)l
+    else if (v == "6.0") {
+      print("Upgrading to 7.0");
+      ensureOk("setFeatureCompatibilityVersion to 7.0", { setFeatureCompatibilityVersion: "7.0", "confirm": true });
     } else {
       print("No upgrade action necessary");
     }

@@ -35,6 +35,10 @@ echo "Waiting for DB to start"
 
 timeout_seconds=${MONGO_INIT_SECONDS_TIMEOUT:-120}
 start=$(date +%s)
+
+echo "Waiting for the mongodb server to accept connections."
+echo "Will wait for up to ${timeout_seconds} before exiting with an error."
+
 until mongosh "${URL_ENCODED_SOCKET_FILE}" ${AUTH_ARGS} --eval "db.adminCommand('ping')"; do
   sleep 1
 
