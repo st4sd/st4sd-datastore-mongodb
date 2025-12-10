@@ -50,7 +50,7 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
       print("************************");
       print("************************");
       quit(3);
-    else if (v == "6.0") {
+    } else if (v == "6.0") {
       print("Upgrading to 7.0");
       ensureOk("setFeatureCompatibilityVersion to 7.0", { setFeatureCompatibilityVersion: "7.0", "confirm": true });
     } else {
