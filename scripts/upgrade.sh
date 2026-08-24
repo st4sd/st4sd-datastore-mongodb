@@ -39,22 +39,17 @@ mongosh "${URL_ENCODED_SOCKET_FILE}" -u "${MONGODB_USERNAME}" -p "${MONGODB_PASS
 
   if (v && typeof v === "string") {
     print("Version", v);
-    if (v == "5.0") {
-      print("************************");
-      print("************************");
-      print("Cannot upgrade a mongodb server from 5.0 to 7.0 without upgrading to 6.0 first.");
-      print("Please scale down this deployment and deploy a Pod with a mongodb 6 image");
-      print("For example, you can use the image quay.io/mongodb/mongodb-community-server:6.0-ubi9");
-      print("Then, using this mongodb 6.0 pod apply setFeatureCompatibilityVersion=6.0 to mongodb");
-      print("Finally, delete the above pod and scale this deployment up again");
-      print("************************");
-      print("************************");
-      quit(3);
-    } else if (v == "6.0") {
-      print("Upgrading to 7.0");
-      ensureOk("setFeatureCompatibilityVersion to 7.0", { setFeatureCompatibilityVersion: "7.0", "confirm": true });
-    } else {
+    if (v == "8.0") {
       print("No upgrade action necessary");
+    } else if (v == "7.0") {
+      print("Upgrading to 8.0");
+      ensureOk("setFeatureCompatibilityVersion to 8.0", { setFeatureCompatibilityVersion: "8.0", confirm: true });
+    } else {
+      print("***");
+      print("*** ERROR: Found FCV " + v + ". This image can only upgrade from 7.0 to 8.0.");
+      print("*** Deploy the appropriate intermediate image to reach 7.0 first, then redeploy this image.");
+      print("***");
+      quit(3);
     }
   } else {
     print("Cannot determine current version");
